@@ -1,0 +1,83 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CarController : MonoBehaviour {
+
+	[SerializeField]
+	private float speed = 0.25f;
+
+	private Transform _transform;
+	private Vector2 _currentPos;
+	[SerializeField]
+	private float leftX;
+	[SerializeField]
+	private float rightX;
+	[SerializeField]
+	private float topY;
+	[SerializeField]
+	private float bottomY;
+
+
+	// Use this for initialization
+	void Start () {
+		_transform = gameObject.GetComponent<Transform> ();
+		_currentPos = transform.position;
+	}
+	
+	// Update is called once per tick
+	void FixedUpdate () {
+
+		_currentPos = _transform.position;
+		if (Input.GetKey (KeyCode.A)) {
+		//if left key is pressed move left
+			_currentPos -= new Vector2(speed, 0);
+		}
+		_transform.position = _currentPos;
+
+		_currentPos = _transform.position;
+		if (Input.GetKey (KeyCode.D)) {
+			//if right key is pressed move right
+			_currentPos += new Vector2(speed, 0);
+		}
+
+		_transform.position = _currentPos;
+
+		_currentPos = _transform.position;
+		if (Input.GetKey (KeyCode.W)) {
+			//if up key is pressed move up
+			_currentPos += new Vector2(0,speed);
+		}
+
+		_transform.position = _currentPos;
+
+		_currentPos = _transform.position;
+		if (Input.GetKey (KeyCode.S)) {
+			//if down key is pressed move down
+			_currentPos += new Vector2(0, -speed);
+		}
+
+		CheckBounds ();
+		_transform.position = _currentPos;
+
+	
+	}
+
+	private void CheckBounds(){
+		if (_currentPos.x < leftX) {  //Bounds for left
+			_currentPos.x = leftX;
+		}
+
+		if (_currentPos.x > rightX) { //Bounds for right 
+			_currentPos.x = rightX;
+		}
+
+		if (_currentPos.y > topY) { //Bounds for top
+			_currentPos.y = topY;
+		}
+
+		if (_currentPos.y < bottomY) { //Bounds for bottom
+			_currentPos.y = bottomY;
+		}
+	}
+}
