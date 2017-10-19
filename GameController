@@ -1,0 +1,100 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class GameContoller : MonoBehaviour {
+	
+private int _score = 0;
+private int _life = 3;
+
+	[SerializeField]
+	Text lifeLabel;
+	[SerializeField]
+	Text scoreLabel;
+	[SerializeField]
+	Text gameOverLabel;
+	[SerializeField]
+	Text highscoreLabel;
+    [SerializeField]
+	Button resetBtn;
+
+ public int Score{
+
+		get{ return _score;}
+		set{ 
+			_score = value;
+			//update UI
+			scoreLabel.text = "Score:" + _score;
+			highscoreLabel.text = "Score:" + _score;
+		}
+	}
+
+
+
+	public int Life{
+
+		get{ return _life;}
+		set{ 
+		_life = value;
+			//update UI
+			if (_life <= 0) {
+				//game over
+				gameOver();
+			}else{
+				//update UI
+				lifeLabel.text = "Life: " + _life;  
+				}
+		}
+	}
+
+	private void Initialize(){
+	//switches IU  score & life on ... everything else off
+
+		Score = 0;
+		Life = 3;
+
+		gameOverLabel.gameObject.SetActive (false);
+		highscoreLabel.gameObject.SetActive (false);
+		resetBtn.gameObject.SetActive (false);
+
+		lifeLabel.gameObject.SetActive (true);
+		scoreLabel.gameObject.SetActive (true);
+	
+	}
+
+	private void gameOver(){
+		//switches IU  gameover, highscore & rest btn  on ... everything else off
+
+		gameOverLabel.gameObject.SetActive (true);
+		highscoreLabel.gameObject.SetActive (true);
+		resetBtn.gameObject.SetActive (true);
+
+		lifeLabel.gameObject.SetActive (false);
+		scoreLabel.gameObject.SetActive (false);
+	
+	}	
+
+
+
+
+	 //Use this for initialization
+	void Start () {
+
+	Initialize();
+
+	}
+
+	// Update is called once per frame
+	void Update () {
+
+	}
+
+	public void ResetBtnClick(){
+		// makes restart btn functional
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
+	
+	}
+
+}
