@@ -1,0 +1,68 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CarCollider : MonoBehaviour {
+
+
+	[SerializeField]
+	GameObject explosion = null; 
+	[SerializeField]
+	AudioSource _wrenchSound = null;
+	[SerializeField]
+	GameContoller gameController;
+
+
+
+	void Start(){
+	
+		_wrenchSound = gameObject.GetComponent<AudioSource> ();
+
+	}
+
+
+	void OnTriggerEnter2D(Collider2D other){
+	
+		if (other.gameObject.tag == "wrench") {
+		
+			Debug.Log ("wrench triggered");
+			gameController.Score += 100;
+		
+
+
+
+
+		} else if (other.gameObject.tag == "enemy") {
+		
+			Debug.Log ("Enemy Triggered");
+			EnemyController sp = other.gameObject.gameObject.GetComponent<EnemyController> ();
+
+			//Explosion
+			GameObject e = Instantiate(explosion);
+			e.transform.position = other.gameObject.transform.position;
+			sp.Reset ();
+			gameController.Life-=1;
+
+			if (sp != null) {
+				sp.Reset ();
+		
+			}
+				
+		
+
+
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D other){
+	
+		Debug.Log ("hit");
+		if (other.gameObject.tag == "enemy") {
+
+			Destroy (other.gameObject);
+
+		}
+
+	}
+
+}
