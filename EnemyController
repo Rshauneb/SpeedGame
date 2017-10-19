@@ -1,0 +1,55 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyController : MonoBehaviour {
+
+	[SerializeField]
+	private float speed = 1f;
+	[SerializeField] 
+	private float startX = 13;
+	[SerializeField]
+	private float endX = -13;
+	[SerializeField] 
+	private float startY;
+	[SerializeField] 
+	private float endY; 
+
+	private Transform _transform;
+	private Vector2 _currentPos;
+
+	// Use this for initialization
+	void Start () {
+		
+		_transform = gameObject.GetComponent<Transform> ();
+		_currentPos = _transform.position;
+		Reset ();
+	}
+	
+	// Update is called once per frame
+	void FixedUpdate () {
+
+		_currentPos = _transform.position;
+		_currentPos -= new Vector2 (speed, 0);	
+
+		//checks if reset is needed
+		if (_currentPos.x < endX) {
+			Reset ();
+		}
+
+		//apply Changes
+		_transform.position = _currentPos;
+
+
+	}
+
+	public void Reset(){
+
+		//loop enemy
+		float y = Random.Range(startY, endY);
+		float dy = Random.Range (-4, 13); 	
+		_currentPos = new Vector2 (startY + dy,y);
+
+	}
+
+}
